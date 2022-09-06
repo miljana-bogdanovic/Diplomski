@@ -1,0 +1,23 @@
+apiVersion: v1
+
+kind: Service
+
+metadata:
+
+  labels:
+
+    app: timeline-cassandra
+
+  name: timeline-cassandra
+
+spec:
+
+  clusterIP: None
+
+  ports:
+
+  - port: 9042
+
+  selector:
+
+    app: timeline-cassandra

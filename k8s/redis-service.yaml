@@ -1,0 +1,24 @@
+apiVersion: v1
+
+kind: Service
+
+metadata:
+
+  labels:
+
+    app: redis-db
+
+  name: redis
+
+spec:
+
+  clusterIP: None
+
+  ports:
+
+  - port: 6379
+    targetPort: 6379 
+
+  selector:
+
+    app: redis-db
