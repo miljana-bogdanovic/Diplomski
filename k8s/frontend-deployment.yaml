@@ -3,19 +3,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
+  labels:
+    app: frontend
 spec:
   selector:
     matchLabels:
-      app: hermes
-      tier: frontend
-      track: stable
+      app: frontend
   replicas: 1
   template:
     metadata:
       labels:
-        app: hermes
-        tier: frontend
-        track: stable
+        app: frontend
     spec:
       containers:
         - name: nginx

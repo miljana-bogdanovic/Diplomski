@@ -54,7 +54,7 @@ public class UserFriendsService {
     @SneakyThrows
     public void addFriendForUser(String username, String follows) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Profile> forEntity = restTemplate.getForEntity("http://localhost:8083/profile/" + follows, Profile.class);
+        ResponseEntity<Profile> forEntity = restTemplate.getForEntity("http://profile-service:8080/profile/" + follows, Profile.class);
         Profile profile = forEntity.getBody();
 
         userFriendsRepository

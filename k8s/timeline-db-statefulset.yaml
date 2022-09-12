@@ -38,7 +38,7 @@ spec:
 
       - name: timeline-cassandra
 
-        image: cassandra:2.1
+        image: miljanabogdanovic/cassandra:latest
 
         imagePullPolicy: Always
 
@@ -122,6 +122,10 @@ spec:
 
             value: "Rack1-K8Demo"
 
+          - name: CASSANDRA_KEYSPACE
+
+            value: timelineservice
+
           - name: POD_IP
 
             valueFrom:
@@ -143,6 +147,7 @@ spec:
 
           mountPath: /timeline-cassandra_data
 
+      
   # These are converted to volume claims by the controller
 
   # and mounted at the paths mentioned above.
@@ -178,6 +183,8 @@ metadata:
   name: fast
 
 provisioner: k8s.io/minikube-hostpath
+
+reclaimPolicy: Retain
 
 parameters:
 

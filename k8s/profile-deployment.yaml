@@ -2,15 +2,17 @@ apiVersion: apps/v1
 kind: Deployment # Kubernetes resource kind we are creating
 metadata:
   name: profile
+  labels:
+    app: profile
 spec:
   selector:
     matchLabels:
-      app: hermes
+      app: profile
   replicas: 1 # Number of replicas that will be created for this deployment
   template:
     metadata:
       labels:
-        app: hermes
+        app: profile
     spec:
       containers:
         - name: profile

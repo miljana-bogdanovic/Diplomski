@@ -38,7 +38,7 @@ spec:
 
       - name: profile-cassandra
 
-        image: cassandra:2.1
+        image: miljanabogdanovic/cassandra:latest
 
         imagePullPolicy: Always
 
@@ -122,6 +122,10 @@ spec:
 
             value: "Rack1-K8Demo"
 
+          - name: CASSANDRA_KEYSPACE
+
+            value: profileservice
+
           - name: POD_IP
 
             valueFrom:
@@ -142,6 +146,7 @@ spec:
         - name: profile-cassandra-data
 
           mountPath: /profile-cassandra_data
+      
 
   # These are converted to volume claims by the controller
 
@@ -178,6 +183,8 @@ metadata:
   name: fast
 
 provisioner: k8s.io/minikube-hostpath
+
+reclaimPolicy: Retain
 
 parameters:
 

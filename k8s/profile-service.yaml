@@ -3,10 +3,10 @@ kind: Service # Kubernetes resource kind we are creating
 metadata: # Metadata of the resource kind we are creating
   name: profile-service
   labels:
-    app: hermes
+    app: profile
 spec:
   selector:
-    app: hermes
+    app: profile
   ports:
     - protocol: "TCP"
       port: 8080 # The port that the service is running on in the cluster

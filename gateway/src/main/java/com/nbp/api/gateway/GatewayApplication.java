@@ -16,7 +16,7 @@ public class GatewayApplication implements WebMvcConfigurer {
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
 				.allowedHeaders("*")
-				.allowedOrigins("http://localhost:4200","http://localhost:8080", "http://hermes.info");
+				.allowedOrigins("*");
 		WebMvcConfigurer.super.addCorsMappings(registry);
 	}
 }

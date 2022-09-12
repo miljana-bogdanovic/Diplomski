@@ -24,6 +24,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ResponseEntity<Profile> forEntity = restTemplate.getForEntity("http://profile-service:8080/profile/" + username, Profile.class);
         Profile profile = forEntity.getBody();
+        System.out.println(profile.username + " " + profile.password);
         return new User(profile.username, profile.password, new ArrayList<>());
 
 //        if ("techgeeknext".equals(username)) {

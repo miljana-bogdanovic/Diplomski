@@ -19,7 +19,6 @@ import com.nbp.timelineservice.repository.LikedRepository;
 import com.nbp.timelineservice.repository.RetweetedRepository;
 import com.nbp.timelineservice.repository.TimelineRepository;
 import com.nbp.timelineservice.repository.UserlineRepository;
-import com.nbp.timelineservice.service.RedisLockService;
 import com.nbp.timelineservice.service.TimelineService;
 import com.nbp.timelineservice.service.UserlineService;
 import com.nbp.timelineservice.service.impl.UserFollowersService;
@@ -110,10 +109,10 @@ public class TimelineController {
         Calendar c = Calendar.getInstance();
         c.setTime(parse);
         //c.add(Calendar.YEAR, 1);
-        c.add(Calendar.HOUR, 1);
+       // c.add(Calendar.HOUR, 1);
         Date newDate = c.getTime();
         c.setTime(parse2);
-        c.add(Calendar.HOUR, 1);
+       // c.add(Calendar.HOUR, 1);
         Date newDate2 = c.getTime();
 
         Optional<Userline> first = userlineRepository.findByPartitionKey(retweetedFrom)
@@ -156,7 +155,7 @@ public class TimelineController {
         Calendar c = Calendar.getInstance();
         c.setTime(parse);
         //c.add(Calendar.YEAR, 1);
-        c.add(Calendar.HOUR, 1);
+        //c.add(Calendar.HOUR, 1);
         Date newDate = c.getTime();
 
         Optional<Timeline> first = timelineRepository.findByPartitionKeyAndCreatedAt(username, newDate)
@@ -203,7 +202,6 @@ public class TimelineController {
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         jedisConnectionFactory.afterPropertiesSet();
         RedisLockRegistry registry = new RedisLockRegistry(jedisConnectionFactory, "lock");
-        RedisLockService redisLockService = new RedisLockService(registry);
         userlineService.getUserline(tweetLikedDto.originalOwnerUsername)
                 .stream()
                 .filter(t -> t.getPrimaryKey().getCreatedAt().equals(tweetLikedDto.createdAt))
@@ -221,12 +219,10 @@ public class TimelineController {
                 .filter(timeline -> timeline.getPrimaryKey().getCreatedAt().equals(tweetLikedDto.createdAt))
                 .collect(Collectors.toList());
         for(Timeline t : collect){
-            redisLockService.lock("lock");
             t.setLikes(t.getLikes()+1);
             if(t.getPrimaryKey().getUsername().equals(tweetLikedDto.username))
                 t.setIsLikedByUser(true);
             timelineRepository.save(t);
-            redisLockService.unlock("lock");
         }
 
         likedRepository.save(Liked.builder().primaryKeyLiked(
@@ -286,7 +282,7 @@ public class TimelineController {
         Calendar c = Calendar.getInstance();
         c.setTime(parse);
         //c.add(Calendar.YEAR, 1);
-        c.add(Calendar.HOUR, 1);
+        //c.add(Calendar.HOUR, 1);
         Date newDate = c.getTime();
 
         Optional<Liked> byId = likedRepository.findById(PrimaryKeyLiked.builder()
@@ -303,7 +299,7 @@ public class TimelineController {
         Calendar c = Calendar.getInstance();
         c.setTime(parse);
         //c.add(Calendar.YEAR, 1);
-        c.add(Calendar.HOUR, 1);
+        //c.add(Calendar.HOUR, 1);
         Date newDate = c.getTime();
 
         Optional<Retweeted> byId = retweetedRepository.findById(PrimaryKeyRetweeted.builder()

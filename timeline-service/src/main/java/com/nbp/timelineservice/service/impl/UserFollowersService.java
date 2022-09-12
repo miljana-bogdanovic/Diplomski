@@ -29,7 +29,7 @@ public class UserFollowersService {
 
     public void addFollowerForUser(String username, String follows) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<UserFriendsService.Profile> forEntity = restTemplate.getForEntity("http://localhost:8083/profile/" + username, UserFriendsService.Profile.class);
+        ResponseEntity<UserFriendsService.Profile> forEntity = restTemplate.getForEntity("http://profile-service:8080/profile/" + username, UserFriendsService.Profile.class);
         UserFriendsService.Profile profile = forEntity.getBody();
 
         userFollowersRepository.insert(UserFollowers

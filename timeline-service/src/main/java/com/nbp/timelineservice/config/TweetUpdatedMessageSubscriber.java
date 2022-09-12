@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nbp.timelineservice.messaging.TweetCreated;
 import com.nbp.timelineservice.model.cassandra.*;
 import com.nbp.timelineservice.repository.TimelineRepository;
-import com.nbp.timelineservice.service.RedisLockService;
 import com.nbp.timelineservice.repository.UserlineRepository;
 import com.nbp.timelineservice.service.TimelineService;
 import com.nbp.timelineservice.service.UserlineService;
@@ -44,7 +43,6 @@ public class TweetUpdatedMessageSubscriber implements MessageListener {
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         jedisConnectionFactory.afterPropertiesSet();
         RedisLockRegistry registry = new RedisLockRegistry(jedisConnectionFactory, "lock");
-        RedisLockService redisLockService = new RedisLockService(registry);        messageList.add(message.toString());
         System.out.println("Message received: " + new String(message.getBody()));
         TweetCreated tweetMessage = null;
         try {
@@ -80,13 +78,11 @@ public class TweetUpdatedMessageSubscriber implements MessageListener {
 
         //timelineService.updateTweetBody(collect, userline.getBody());
         for (Timeline t : collect){
-            redisLockService.lock("lock");
             t.setBody(userline.getBody());
                 //t.setLikes(userline.getLikes());
                 //t.setPhoto(userline.getPhoto());
                 //t.setRetweets(userline.getRetweets());
             timelineRepository.save(t);
-            redisLockService.unlock("lock");
         }
     }
 }

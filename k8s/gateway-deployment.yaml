@@ -2,15 +2,17 @@ apiVersion: apps/v1
 kind: Deployment # Kubernetes resource kind we are creating
 metadata:
   name: gateway
+  labels:
+    app: gateway
 spec:
   selector:
     matchLabels:
-      app: hermes
+      app: gateway
   replicas: 1 # Number of replicas that will be created for this deployment
   template:
     metadata:
       labels:
-        app: hermes
+        app: gateway
     spec:
       containers:
         - name: gateway

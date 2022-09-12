@@ -7,7 +7,6 @@ import com.nbp.timelineservice.repository.TimelineRepository;
 import com.nbp.timelineservice.repository.UserFollowersRepository;
 import com.nbp.timelineservice.repository.UserFriendsRepository;
 import com.nbp.timelineservice.repository.UserlineRepository;
-import com.nbp.timelineservice.service.RedisLockService;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
@@ -43,7 +42,6 @@ public class ProfileUpdatedMessageSubscriber implements MessageListener {
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         jedisConnectionFactory.afterPropertiesSet();
         RedisLockRegistry registry = new RedisLockRegistry(jedisConnectionFactory, "lock");
-        RedisLockService redisLockService = new RedisLockService(registry);
         messageList.add(message.toString());
         System.out.println("Message received: " + new String(message.getBody()));
 
@@ -57,12 +55,10 @@ public class ProfileUpdatedMessageSubscriber implements MessageListener {
 
         if(!timelines.isEmpty()){
             for(Timeline t : timelines) {
-                redisLockService.lock("lock");
                 t.setPhoto(profile.image);
                 t.setFirstName(profile.firstName);
                 t.setLastName(profile.lastName);
                 timelineRepository.save(t);
-                redisLockService.unlock("lock");
             }
         }
 

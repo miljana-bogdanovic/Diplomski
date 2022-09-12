@@ -7,7 +7,6 @@ import com.nbp.timelineservice.model.cassandra.Userline;
 import com.nbp.timelineservice.model.domain.TimelineDto;
 import com.nbp.timelineservice.model.domain.UserlineDto;
 import com.nbp.timelineservice.repository.TimelineRepository;
-import com.nbp.timelineservice.service.RedisLockService;
 import com.nbp.timelineservice.service.TimelineService;
 import com.nbp.timelineservice.service.UserlineService;
 import org.springframework.beans.factory.annotation.Autowired;
