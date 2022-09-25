@@ -26,6 +26,8 @@ public class RedisConfig {
     private String host;
     @Value("${spring.redis.port}")
     private Integer port;
+    @Value("${spring.redis.password}")
+    private String password;
 
     @Autowired
     private RedisMessageSubscriber redisMessageSubscriber;
@@ -40,6 +42,7 @@ public class RedisConfig {
         jedisConnectionFactory.getPoolConfig().setMinIdle(10);
         jedisConnectionFactory.setHostName(host);
         jedisConnectionFactory.setPort(port);
+        jedisConnectionFactory.setPassword(password);
         return jedisConnectionFactory;
     }
 

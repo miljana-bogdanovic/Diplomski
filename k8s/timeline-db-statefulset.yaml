@@ -99,32 +99,46 @@ spec:
         env:
 
           - name: MAX_HEAP_SIZE
-
-            value: 512M
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: MAX_HEAP_SIZE
 
           - name: HEAP_NEWSIZE
-
-            value: 100M
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: HEAP_NEWSIZE
 
           - name: CASSANDRA_SEEDS
-
-            value: "timeline-cassandra-0.timeline-cassandra.default.svc.cluster.local"
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_SEEDS_TIMELINE
 
           - name: CASSANDRA_CLUSTER_NAME
-
-            value: "K8Demo"
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_CLUSTER_NAME_TIMELINE
 
           - name: CASSANDRA_DC
-
-            value: "DC1-K8Demo"
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_DC
 
           - name: CASSANDRA_RACK
-
-            value: "Rack1-K8Demo"
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_RACK
 
           - name: CASSANDRA_KEYSPACE
-
-            value: timelineservice
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_KEYSPACE_TIMELINE
 
           - name: POD_IP
 
@@ -164,7 +178,7 @@ spec:
 
       accessModes: [ "ReadWriteOnce" ]
 
-      storageClassName: fast
+      storageClassName: fast-timeline # "azurefile"
 
       resources:
 
@@ -180,7 +194,7 @@ apiVersion: storage.k8s.io/v1
 
 metadata:
 
-  name: fast
+  name: fast-timeline
 
 provisioner: k8s.io/minikube-hostpath
 

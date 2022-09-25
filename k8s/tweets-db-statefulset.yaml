@@ -99,32 +99,47 @@ spec:
         env:
 
           - name: MAX_HEAP_SIZE
-
-            value: 512M
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: MAX_HEAP_SIZE
 
           - name: HEAP_NEWSIZE
-
-            value: 100M
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: HEAP_NEWSIZE
 
           - name: CASSANDRA_SEEDS
-
-            value: "tweets-cassandra-0.tweets-cassandra.default.svc.cluster.local"
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_SEEDS_TWEET
 
           - name: CASSANDRA_CLUSTER_NAME
-
-            value: "K8Demo"
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_CLUSTER_NAME_TWEET
 
           - name: CASSANDRA_DC
-
-            value: "DC1-K8Demo"
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_DC
 
           - name: CASSANDRA_RACK
-
-            value: "Rack1-K8Demo"
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_RACK
 
           - name: CASSANDRA_KEYSPACE
+            valueFrom:
+              configMapKeyRef:
+                name: cassandra-config
+                key: CASSANDRA_KEYSPACE_TWEET
 
-            value: tweetservice
 
           - name: POD_IP
 
@@ -163,7 +178,7 @@ spec:
 
       accessModes: [ "ReadWriteOnce" ]
 
-      storageClassName: fast
+      storageClassName: fast-tweets # "azurefile"
 
       resources:
 
@@ -179,7 +194,7 @@ apiVersion: storage.k8s.io/v1
 
 metadata:
 
-  name: fast
+  name: fast-tweets
 
 provisioner: k8s.io/minikube-hostpath
 

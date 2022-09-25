@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cassandra-config
+data:
+  MAX_HEAP_SIZE : 512M
+  HEAP_NEWSIZE : 100M
+  CASSANDRA_SEEDS_PROFILE : "profile-cassandra-0.profile-cassandra.default.svc.cluster.local"
+  CASSANDRA_SEEDS_TIMELINE : "timeline-cassandra-0.timeline-cassandra.default.svc.cluster.local"
+  CASSANDRA_SEEDS_TWEET : "tweets-cassandra-0.tweets-cassandra.default.svc.cluster.local"
+  CASSANDRA_CLUSTER_NAME_PROFILE : "K8Profile"
+  CASSANDRA_CLUSTER_NAME_TWEET : "K8Tweet"
+  CASSANDRA_CLUSTER_NAME_TIMELINE : "K8Timeline"
+  CASSANDRA_DC : "DC1-K8Demo"
+  CASSANDRA_RACK : "Rack1-K8Demo"
+  CASSANDRA_KEYSPACE_PROFILE : profileservice
+  CASSANDRA_KEYSPACE_TWEET : tweetservice
+  CASSANDRA_KEYSPACE_TIMELINE : timelineservice
+  
