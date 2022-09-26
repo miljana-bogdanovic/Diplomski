@@ -1,2 +1,1 @@
-# hermes
-Twitter clone whose architecture emphasises use of NoSQL databases
+# Projektovanje i implementacija skalabilne mikroservis arhitekture za društvene mreže
