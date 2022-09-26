@@ -106,7 +106,7 @@ spec:
       name: timeline-cassandra-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "azurefile"
+      storageClassName: fast-timeline
       resources:
         requests:
           storage: 1Gi

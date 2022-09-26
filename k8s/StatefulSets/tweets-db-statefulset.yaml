@@ -104,7 +104,7 @@ spec:
       name: tweets-cassandra-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName:  "azurefile"
+      storageClassName:  fast-tweet
       resources:
         requests:
           storage: 1Gi

@@ -104,7 +104,7 @@ spec:
       name: profile-cassandra-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: fast # "azurefile"
+      storageClassName:  fast-profile
       resources:
         requests:
           storage: 1Gi

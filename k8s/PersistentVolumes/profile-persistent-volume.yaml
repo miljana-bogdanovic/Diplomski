@@ -2,10 +2,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: profile-cassandra-data
-  labels:
-    type: local
 spec:
-  storageClassName: manual # azurefile
+  storageClassName: fast-profile
   capacity:
     storage: 1Gi
   accessModes:
