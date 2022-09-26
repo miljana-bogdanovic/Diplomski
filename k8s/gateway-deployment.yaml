@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment # Kubernetes resource kind we are creating
+kind: Deployment
 metadata:
   name: gateway
   labels:
@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: gateway
-  replicas: 1 # Number of replicas that will be created for this deployment
+  replicas: 1
   template:
     metadata:
       labels:
@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: miljanabogdanovic/demo:latest # Image that will be used to containers in the cluster
+          image: miljanabogdanovic/demo:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080 # The port that the container is running on in the cluster
+            - containerPort: 8080
           resources:
             limits:
               cpu: 500m

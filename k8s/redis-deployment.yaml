@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-db
+  labels:
+    app: redis-db
+spec:
+  selector:
+    matchLabels:
+      app: redis-db
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: redis-db
+    spec:
+      containers:
+      - name: redis
+        image: redis:6.2
+        command:
+          - redis-server
+          - "/redis-master/redis.conf"
+        args: ["--requirepass", "$(REDIS_PASS)"]
+        env:
+        - name: MASTER
+          value: "true"
+        - name: REDIS_PASS
+          valueFrom:
+            secretKeyRef:
+              name: redis
+              key: password
+        - name: REDIS_DISABLE_COMMANDS
+          value: "FLUSHDB,FLUSHALL"
+        ports:
+        - containerPort: 6379
+        resources:
+          limits:
+            cpu: "0.1"
+        volumeMounts:
+        - mountPath: /redis-master-data
+          name: data
+        - mountPath: /redis-master
+          name: config
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: redis-config
+            items:
+            - key: redis-config
+              path: redis.conf

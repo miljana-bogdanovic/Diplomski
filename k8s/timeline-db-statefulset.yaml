@@ -1,99 +1,51 @@
 apiVersion: apps/v1
-
 kind: StatefulSet
-
 metadata:
-
   name: timeline-cassandra
-
   labels:
-
     app: timeline-cassandra
-
 spec:
-
   serviceName: timeline-cassandra
-
   replicas: 1
-
   selector:
-
     matchLabels:
-
       app: timeline-cassandra
-
   template:
-
     metadata:
-
       labels:
-
         app: timeline-cassandra
-
     spec:
-
       terminationGracePeriodSeconds: 1800
-
       containers:
-
       - name: timeline-cassandra
-
         image: miljanabogdanovic/cassandra:latest
-
         imagePullPolicy: Always
-
         ports:
-
         - containerPort: 7000
-
           name: intra-node
-
         - containerPort: 7001
-
           name: tls-intra-node
-
         - containerPort: 7199
-
           name: jmx
-
         - containerPort: 9042
-
           name: cql
-
         resources:
-
           limits:
-
             cpu: "500m"
-
             memory: 1Gi
-
           requests:
-
             cpu: "500m"
-
             memory: 1Gi
-
         securityContext:
-
           capabilities:
-
             add:
-
               - IPC_LOCK
-
         lifecycle:
-
           preStop:
-
             exec:
-
               command: 
-
               - /bin/sh
-
               - -c
-
               - nodetool drain
 
         env:
@@ -141,65 +93,20 @@ spec:
                 key: CASSANDRA_KEYSPACE_TIMELINE
 
           - name: POD_IP
-
             valueFrom:
-
               fieldRef:
-
                 fieldPath: status.podIP
 
-
-        # These volume mounts are persistent. They are like inline claims,
-
-        # but not exactly because the names need to match exactly one of
-
-        # the stateful pod volumes.
-
         volumeMounts:
-
         - name: timeline-cassandra-data
-
           mountPath: /timeline-cassandra_data
 
-      
-  # These are converted to volume claims by the controller
-
-  # and mounted at the paths mentioned above.
-
-  # do not use these in production until ssd GCEPersistentDisk or other ssd pd
-
   volumeClaimTemplates:
-
   - metadata:
-
       name: timeline-cassandra-data
-
     spec:
-
       accessModes: [ "ReadWriteOnce" ]
-
-      storageClassName: fast-timeline # "azurefile"
-
+      storageClassName: "azurefile"
       resources:
-
         requests:
-
           storage: 1Gi
-
----
-
-kind: StorageClass
-
-apiVersion: storage.k8s.io/v1
-
-metadata:
-
-  name: fast-timeline
-
-provisioner: k8s.io/minikube-hostpath
-
-reclaimPolicy: Retain
-
-parameters:
-
-  type: pd-ssd
